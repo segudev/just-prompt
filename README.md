@@ -49,6 +49,13 @@ OLLAMA_HOST=http://localhost:11434
 
 With the default weak model set to `openai:gpt-4o-mini`.
 
+Copy this and paste it into claude code with BUT don't run until you copy the json
+
+```
+claude mcp add just-prompt "$(pbpaste)"
+```
+
+JSON to copy
 
 ```
 {
@@ -66,18 +73,16 @@ With the default weak model set to `anthropic:claude-3-5-haiku`.
 }
 ```
 
-Copy this and add it to claude code with...
-
-```
-claude mcp add just-prompt "$(pbpaste)""
-```
-
-
 ### Using `mcp add`
 
 claude mcp add just-prompt -- \
     uv --directory . \
     run just-prompt
+
+
+## `mcp remove`
+
+claude mcp remove just-prompt
 
 
 ### Starting the Server
