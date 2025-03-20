@@ -58,6 +58,6 @@
 
 # -------------------------------- ollama
 
-import ollama
+# import ollama
 
-print(ollama.list())
+# print(ollama.list())

@@ -68,13 +68,4 @@ def list_models() -> List[str]:
         return models
     except Exception as e:
         logger.error(f"Error listing Ollama models: {e}")
-        # Return some known models if API fails
-        logger.info("Returning hardcoded list of known Ollama models")
-        return [
-            "llama3:latest",
-            "llama3.1:latest",
-            "gemma:latest",
-            "gemma:7b",
-            "qwen:latest",
-            "qwen2.5-1.5b:latest",
-        ]
+        return []
