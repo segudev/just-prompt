@@ -53,12 +53,8 @@ def list_models() -> List[str]:
         logger.info("Listing OpenAI models")
         response = client.models.list()
 
-        # Filter for chat completion models
-        models = [
-            model.id
-            for model in response.data
-            if model.id.startswith(("gpt-", "text-"))
-        ]
+        # Return all models without filtering
+        models = [model.id for model in response.data]
 
         return models
     except Exception as e:
