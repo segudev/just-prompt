@@ -32,7 +32,7 @@ def prompt(text: str, model: str) -> str:
     try:
         logger.info(f"Sending prompt to Anthropic model: {model}")
         message = client.messages.create(
-            model=model, max_tokens=10000, messages=[{"role": "user", "content": text}]
+            model=model, max_tokens=4096, messages=[{"role": "user", "content": text}]
         )
 
         return message.content[0].text

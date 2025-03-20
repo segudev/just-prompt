@@ -20,11 +20,17 @@
 
 # --------------------------------
 
-# import anthropic
+import anthropic
+import os
+from dotenv import load_dotenv
 
-# client = anthropic.Anthropic()
+load_dotenv()
 
-# print(client.models.list(limit=20))
+client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
+models = client.models.list()
+print("Available Anthropic models:")
+for model in models.data:
+    print(f"- {model.id}")
 
 # --------------------------------
 
@@ -58,6 +64,6 @@
 
 # -------------------------------- ollama
 
-# import ollama
+import ollama
 
-# print(ollama.list())
+print(ollama.list())
