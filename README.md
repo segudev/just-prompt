@@ -100,41 +100,72 @@ python -m just_prompt.server
 Or use the command-line interface:
 
 ```bash
-just-prompt --host 0.0.0.0 --port 8000 --weak-model o:gpt-4o-mini
+# Using a single default model
+just-prompt --host 0.0.0.0 --port 8000 --default-models o:gpt-4o-mini
+
+# Using multiple default models (comma-separated)
+just-prompt --host 0.0.0.0 --port 8000 --default-models "o:gpt-4o-mini,a:claude-3-5-haiku,g:gemini-1.5-flash"
 ```
+
+The `--default-models` parameter sets the models to use when none are explicitly provided to the API endpoints. The first model in the list is also used for model name correction when needed.
 
 ### API Endpoints
 
 #### Send a Prompt
 
 ```bash
+# Using specific models
 curl -X POST http://localhost:8000/prompt \
   -H "Content-Type: application/json" \
   -d '{
     "text": "What is the capital of France?",
     "models_prefixed_by_provider": ["o:gpt-4o-mini", "a:claude-3-5-haiku"]
   }'
+
+# Using default models (set when starting the server)
+curl -X POST http://localhost:8000/prompt \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "What is the capital of France?"
+  }'
 ```
 
 #### Send a Prompt from a File
 
 ```bash
+# Using specific models
 curl -X POST http://localhost:8000/prompt_from_file \
   -H "Content-Type: application/json" \
   -d '{
     "file": "/path/to/prompt.txt",
     "models_prefixed_by_provider": ["o:gpt-4o-mini", "a:claude-3-5-haiku"]
   }'
+
+# Using default models
+curl -X POST http://localhost:8000/prompt_from_file \
+  -H "Content-Type: application/json" \
+  -d '{
+    "file": "/path/to/prompt.txt"
+  }'
 ```
 
 #### Send a Prompt from a File and Save Responses to Files
 
 ```bash
+# Using specific models
 curl -X POST http://localhost:8000/prompt_from_file_to_file \
   -H "Content-Type: application/json" \
   -d '{
     "file": "/path/to/prompt.txt",
     "models_prefixed_by_provider": ["o:gpt-4o-mini", "a:claude-3-5-haiku"],
+    "output_dir": "/path/to/output"
+  }'
+
+# Using default models
+curl -X POST http://localhost:8000/prompt_from_file_to_file \
+  -H "Content-Type: application/json" \
+  -d '{
+    "file": "/path/to/prompt.txt",
     "output_dir": "/path/to/output"
   }'
 ```
@@ -215,4 +246,4 @@ uv run pytest
 ```
 
 ## Context Priming
-READ README.md, ai_docs/*, run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
+READ README.md, specs/*,run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.

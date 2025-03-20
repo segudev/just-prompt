@@ -5,7 +5,7 @@ MCP server for just-prompt.
 import asyncio
 import logging
 import os
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import Tool, TextContent
@@ -51,23 +51,23 @@ class JustPromptTools:
 # Schema classes for MCP tools
 class PromptSchema(BaseModel):
     text: str = Field(..., description="The prompt text")
-    models_prefixed_by_provider: List[str] = Field(
-        ..., 
-        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o')"
+    models_prefixed_by_provider: Optional[List[str]] = Field(
+        None, 
+        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models."
     )
 
 class PromptFromFileSchema(BaseModel):
     file: str = Field(..., description="Path to the file containing the prompt")
-    models_prefixed_by_provider: List[str] = Field(
-        ..., 
-        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o')"
+    models_prefixed_by_provider: Optional[List[str]] = Field(
+        None, 
+        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models."
     )
 
 class PromptFromFileToFileSchema(BaseModel):
     file: str = Field(..., description="Path to the file containing the prompt")
-    models_prefixed_by_provider: List[str] = Field(
-        ..., 
-        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o')"
+    models_prefixed_by_provider: Optional[List[str]] = Field(
+        None, 
+        description="List of models with provider prefixes (e.g., 'openai:gpt-4o' or 'o:gpt-4o'). If not provided, uses default models."
     )
     output_dir: str = Field(
         default=".", 
@@ -81,17 +81,25 @@ class ListModelsSchema(BaseModel):
     provider: str = Field(..., description="Provider to list models for (e.g., 'openai' or 'o')")
 
 
-async def serve(weak_provider_and_model: str = "o:gpt-4o-mini") -> None:
+async def serve(default_models: str = "o:gpt-4o-mini") -> None:
     """
     Start the MCP server.
     
     Args:
-        weak_provider_and_model: Model to use for model name correction
+        default_models: Comma-separated list of default models to use for prompts and corrections
     """
-    # Set global weak model for corrections
-    os.environ["WEAK_PROVIDER_AND_MODEL"] = weak_provider_and_model
+    # Set global default models for prompts and corrections
+    os.environ["DEFAULT_MODELS"] = default_models
     
-    logger.info(f"Starting server with weak model: {weak_provider_and_model}")
+    # Parse default models into a list
+    default_models_list = [model.strip() for model in default_models.split(",")]
+    
+    # Set the first model as the correction model
+    correction_model = default_models_list[0] if default_models_list else "o:gpt-4o-mini"
+    os.environ["CORRECTION_MODEL"] = correction_model
+    
+    logger.info(f"Starting server with default models: {default_models}")
+    logger.info(f"Using correction model: {correction_model}")
     
     # Create the MCP server
     server = Server("just-prompt")
@@ -134,26 +142,37 @@ async def serve(weak_provider_and_model: str = "o:gpt-4o-mini") -> None:
         
         try:
             if name == JustPromptTools.PROMPT:
-                responses = prompt(arguments["text"], arguments["models_prefixed_by_provider"])
+                models_to_use = arguments.get("models_prefixed_by_provider")
+                responses = prompt(arguments["text"], models_to_use)
+                
+                # Get the model names that were actually used
+                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini").split(",")]
+                
                 return [TextContent(
                     type="text",
-                    text="\n".join([f"Model: {arguments['models_prefixed_by_provider'][i]}\nResponse: {resp}" 
+                    text="\n".join([f"Model: {models_used[i]}\nResponse: {resp}" 
                                   for i, resp in enumerate(responses)])
                 )]
                 
             elif name == JustPromptTools.PROMPT_FROM_FILE:
-                responses = prompt_from_file(arguments["file"], arguments["models_prefixed_by_provider"])
+                models_to_use = arguments.get("models_prefixed_by_provider")
+                responses = prompt_from_file(arguments["file"], models_to_use)
+                
+                # Get the model names that were actually used
+                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini").split(",")]
+                
                 return [TextContent(
                     type="text",
-                    text="\n".join([f"Model: {arguments['models_prefixed_by_provider'][i]}\nResponse: {resp}" 
+                    text="\n".join([f"Model: {models_used[i]}\nResponse: {resp}" 
                                   for i, resp in enumerate(responses)])
                 )]
                 
             elif name == JustPromptTools.PROMPT_FROM_FILE_TO_FILE:
                 output_dir = arguments.get("output_dir", ".")
+                models_to_use = arguments.get("models_prefixed_by_provider")
                 file_paths = prompt_from_file_to_file(
                     arguments["file"], 
-                    arguments["models_prefixed_by_provider"],
+                    models_to_use,
                     output_dir
                 )
                 return [TextContent(

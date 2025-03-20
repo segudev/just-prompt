@@ -5,6 +5,7 @@ Prompt functionality for just-prompt.
 from typing import List
 import logging
 import concurrent.futures
+import os
 from ..atoms.shared.validator import validate_models_prefixed_by_provider
 from ..atoms.shared.utils import split_provider_and_model
 from ..atoms.shared.model_router import ModelRouter
@@ -30,37 +31,41 @@ def _process_model_prompt(model_string: str, text: str) -> str:
         return f"Error ({model_string}): {str(e)}"
 
 
-def _correct_model_name(provider: str, model: str, weak_provider_and_model: str) -> str:
+def _correct_model_name(provider: str, model: str, correction_model: str) -> str:
     """
-    Correct a model name using the weak model.
+    Correct a model name using the correction model.
     
     Args:
         provider: Provider name
         model: Model name
-        weak_provider_and_model: Weak model for correction
+        correction_model: Model to use for correction
         
     Returns:
         Corrected model name
     """
     try:
-        return ModelRouter.magic_model_correction(provider, model, weak_provider_and_model)
+        return ModelRouter.magic_model_correction(provider, model, correction_model)
     except Exception as e:
         logger.error(f"Error correcting model name {provider}:{model}: {e}")
         return model
 
 
-def prompt(text: str, models_prefixed_by_provider: List[str], weak_provider_and_model: str = "o:gpt-4o-mini") -> List[str]:
+def prompt(text: str, models_prefixed_by_provider: List[str] = None) -> List[str]:
     """
     Send a prompt to multiple models using parallel processing.
     
     Args:
         text: The prompt text
         models_prefixed_by_provider: List of model strings in format "provider:model"
-        weak_provider_and_model: Model to use for model name correction
+                                    If None, uses the DEFAULT_MODELS environment variable
         
     Returns:
         List of responses from the models
     """
+    # Use default models if no models provided
+    if not models_prefixed_by_provider:
+        default_models = os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini")
+        models_prefixed_by_provider = [model.strip() for model in default_models.split(",")]
     # Validate model strings
     validate_models_prefixed_by_provider(models_prefixed_by_provider)
     
@@ -69,8 +74,11 @@ def prompt(text: str, models_prefixed_by_provider: List[str], weak_provider_and_
     for model_string in models_prefixed_by_provider:
         provider, model = split_provider_and_model(model_string)
         
+        # Get correction model from environment
+        correction_model = os.environ.get("CORRECTION_MODEL", "o:gpt-4o-mini")
+        
         # Check if model needs correction
-        corrected_model = _correct_model_name(provider, model, weak_provider_and_model)
+        corrected_model = _correct_model_name(provider, model, correction_model)
         
         # Use corrected model
         if corrected_model != model:

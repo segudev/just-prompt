@@ -28,9 +28,9 @@ def main():
     """
     parser = argparse.ArgumentParser(description="just-prompt - A lightweight MCP server for various LLM providers")
     parser.add_argument(
-        "--weak-model", 
+        "--default-models", 
         default="o:gpt-4o-mini",
-        help="Weak model to use for model name correction, in format provider:model"
+        help="Comma-separated list of default models to use for prompts and model name correction, in format provider:model"
     )
     parser.add_argument(
         "--log-level", 
@@ -46,7 +46,7 @@ def main():
     
     try:
         # Start server (asyncio)
-        asyncio.run(serve(args.weak_model))
+        asyncio.run(serve(args.default_models))
     except Exception as e:
         logger.error(f"Error starting server: {e}")
         sys.exit(1)

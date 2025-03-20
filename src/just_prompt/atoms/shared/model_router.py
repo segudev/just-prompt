@@ -79,14 +79,14 @@ class ModelRouter:
             raise
     
     @staticmethod
-    def magic_model_correction(provider: str, model: str, weak_provider_and_model: str) -> str:
+    def magic_model_correction(provider: str, model: str, correction_model: str) -> str:
         """
-        Correct a model name using a weak AI model if needed.
+        Correct a model name using a correction AI model if needed.
         
         Args:
             provider: Provider name
             model: Original model name
-            weak_provider_and_model: Model to use for correction, e.g. "o:gpt-4o-mini"
+            correction_model: Model to use for correction, e.g. "o:gpt-4o-mini"
             
         Returns:
             Corrected model name
@@ -102,18 +102,18 @@ class ModelRouter:
                 logger.info(f"Using {provider} and {model}")
                 return model
             
-            # Model needs correction - use weak model to correct it
-            weak_provider, weak_model = split_provider_and_model(weak_provider_and_model)
-            weak_provider_enum = ModelProviders.from_name(weak_provider)
+            # Model needs correction - use correction model to correct it
+            correction_provider, correction_model_name = split_provider_and_model(correction_model)
+            correction_provider_enum = ModelProviders.from_name(correction_provider)
             
-            if not weak_provider_enum:
-                logger.warning(f"Invalid weak model provider: {weak_provider}, skipping correction")
+            if not correction_provider_enum:
+                logger.warning(f"Invalid correction model provider: {correction_provider}, skipping correction")
                 return model
                 
-            weak_module_name = f"just_prompt.atoms.llm_providers.{weak_provider_enum.full_name}"
-            weak_module = importlib.import_module(weak_module_name)
+            correction_module_name = f"just_prompt.atoms.llm_providers.{correction_provider_enum.full_name}"
+            correction_module = importlib.import_module(correction_module_name)
             
-            # Build prompt for the weak model
+            # Build prompt for the correction model
             prompt = f"""
 Given a user-provided model name "{model}" for the provider "{provider}", and the list of actual available models below,
 return the closest matching model name from the available models list.
@@ -121,12 +121,12 @@ Only return the exact model name, nothing else.
 
 Available models: {', '.join(available_models)}
 """
-            # Get correction from weak model
-            corrected_model = weak_module.prompt(prompt, weak_model).strip()
+            # Get correction from correction model
+            corrected_model = correction_module.prompt(prompt, correction_model_name).strip()
             
             # Verify the corrected model exists in the available models
             if corrected_model in available_models:
-                logger.info(f"weak_provider_and_model: {weak_provider_and_model}")
+                logger.info(f"correction_model: {correction_model}")
                 logger.info(f"models_prefixed_by_provider: {provider}:{model}")
                 logger.info(f"corrected_model: {corrected_model}")
                 return corrected_model

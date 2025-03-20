@@ -11,14 +11,14 @@ from .prompt import prompt
 logger = logging.getLogger(__name__)
 
 
-def prompt_from_file(file: str, models_prefixed_by_provider: List[str], weak_provider_and_model: str = "o:gpt-4o-mini") -> List[str]:
+def prompt_from_file(file: str, models_prefixed_by_provider: List[str] = None) -> List[str]:
     """
     Read text from a file and send it as a prompt to multiple models.
     
     Args:
         file: Path to the text file
         models_prefixed_by_provider: List of model strings in format "provider:model"
-        weak_provider_and_model: Model to use for model name correction
+                                    If None, uses the DEFAULT_MODELS environment variable
         
     Returns:
         List of responses from the models
@@ -41,4 +41,4 @@ def prompt_from_file(file: str, models_prefixed_by_provider: List[str], weak_pro
         raise ValueError(f"Error reading file: {str(e)}")
     
     # Send prompt with file content
-    return prompt(text, models_prefixed_by_provider, weak_provider_and_model)
+    return prompt(text, models_prefixed_by_provider)

@@ -11,15 +11,15 @@ from .prompt_from_file import prompt_from_file
 logger = logging.getLogger(__name__)
 
 
-def prompt_from_file_to_file(file: str, models_prefixed_by_provider: List[str], output_dir: str = ".", weak_provider_and_model: str = "o:gpt-4o-mini") -> List[str]:
+def prompt_from_file_to_file(file: str, models_prefixed_by_provider: List[str] = None, output_dir: str = ".") -> List[str]:
     """
     Read text from a file, send it as prompt to multiple models, and save responses to files.
     
     Args:
         file: Path to the text file
         models_prefixed_by_provider: List of model strings in format "provider:model"
+                                    If None, uses the DEFAULT_MODELS environment variable
         output_dir: Directory to save response files
-        weak_provider_and_model: Model to use for model name correction
         
     Returns:
         List of paths to the output files
@@ -36,11 +36,18 @@ def prompt_from_file_to_file(file: str, models_prefixed_by_provider: List[str], 
     input_file_name = Path(file).stem
     
     # Get responses
-    responses = prompt_from_file(file, models_prefixed_by_provider, weak_provider_and_model)
+    responses = prompt_from_file(file, models_prefixed_by_provider)
     
     # Save responses to files
     output_files = []
-    for i, (model_string, response) in enumerate(zip(models_prefixed_by_provider, responses)):
+    
+    # Get the models that were actually used
+    models_used = models_prefixed_by_provider
+    if not models_used:
+        default_models = os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini")
+        models_used = [model.strip() for model in default_models.split(",")]
+    
+    for i, (model_string, response) in enumerate(zip(models_used, responses)):
         # Sanitize model string for filename (replace colons with underscores)
         safe_model_name = model_string.replace(":", "_")
         
