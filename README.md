@@ -11,6 +11,12 @@ just-prompt is a Model Control Protocol (MCP) server that provides a unified int
 - Automatic model name correction using a "weak" model
 - Easy listing of available providers and models
 
+## Recommended Workflow
+
+1. Start claude code `claude`
+2. `> list all providers, then list all models for each provider`
+3. `> prompt 'hello' using a model for each provider`
+
 ## Installation
 
 ### From Source
