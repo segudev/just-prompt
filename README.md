@@ -1,0 +1,1 @@
+# Just Prompt - A lightweight Claude Code MCP server for RAPID Prompt Engineering
