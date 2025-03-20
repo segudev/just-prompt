@@ -21,11 +21,11 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 def prompt(text: str, model: str) -> str:
     """
     Send a prompt to OpenAI and get a response.
-    
+
     Args:
         text: The prompt text
         model: The model name
-        
+
     Returns:
         Response string from the model
     """
@@ -34,10 +34,8 @@ def prompt(text: str, model: str) -> str:
         response = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": text}],
-            temperature=0.7,
-            max_tokens=1000
         )
-        
+
         return response.choices[0].message.content
     except Exception as e:
         logger.error(f"Error sending prompt to OpenAI: {e}")
@@ -47,17 +45,21 @@ def prompt(text: str, model: str) -> str:
 def list_models() -> List[str]:
     """
     List available OpenAI models.
-    
+
     Returns:
         List of model names
     """
     try:
         logger.info("Listing OpenAI models")
         response = client.models.list()
-        
+
         # Filter for chat completion models
-        models = [model.id for model in response.data if model.id.startswith(("gpt-", "text-"))]
-        
+        models = [
+            model.id
+            for model in response.data
+            if model.id.startswith(("gpt-", "text-"))
+        ]
+
         return models
     except Exception as e:
         logger.error(f"Error listing OpenAI models: {e}")

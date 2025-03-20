@@ -1,0 +1,139 @@
+
+<think>
+Okay, I need to implement a binary search function in Python that returns the index of the target if found, or None if not found. Let's think about how binary search works step by step.
+
+First, binary search works on sorted arrays. The function's parameters are an array and a target value. The return type is Optional[int], so I have to import Optional from typing. Wait, right, in Python 3.10+, you can use from typing import Optional. Hmm, probably assume that's set up.
+
+The approach is to have two pointers, left and right, starting at the beginning and end of the array. Then, while left <= right, we find the middle index. If the middle element is the target, return the index. If the target is less than the middle element, adjust the right pointer to mid -1. Otherwise, move the left pointer up. If we exit the loop without returning, return None because it's not found.
+
+Wait, what about when the array is empty? The loop won't run, so returning None is correct. Need to handle all those edge cases.
+
+So, let me outline the steps:
+
+1. Initialize left = 0, right = len(arr) - 1.
+
+2. While left <= right:
+
+   a. Calculate mid as (left + right) // 2. Or maybe (left + right) // 2? Yes.
+
+   b. If arr[mid] == target: return mid
+
+   c. If target < arr[mid], set right = mid -1
+
+   d. Else, set left = mid + 1.
+
+3. After loop, return None.
+
+Wait, yes. So code structure:
+
+def binary_search(arr, target) -> Optional[int]:
+
+   left = 0
+
+   right = len(arr) - 1
+
+   while left <= right:
+
+       mid = (left + right) // 2
+
+       if arr[mid] == target:
+
+           return mid
+
+       elif target < arr[mid]:
+
+           right = mid - 1
+
+       else:
+
+           left = mid + 1
+
+   return None
+
+Wait, but could there be an issue with integer overflow? Well in Python, integers can be big, so adding left and right won't cause overflow even for very large arrays. But in some languages like Java, you have to be careful, but here it's fine.
+
+So that should be correct.
+
+Test case scenarios:
+
+Test an empty array: returns None. That works.
+
+If the array has one element and it matches, returns 0.
+
+What about when the target is not in the array, like in [1,3,5], target 2. Let's see:
+
+First, left=0, right=2. mid=1, arr[1] is 3, which is higher than 2. So set right = 0.
+
+Then loop continues: now left=0, right=0.
+
+Mid becomes 0. arr[0] is 1, which is less than 2. So set left to 1. Now left (1) > right (0), loop ends. Return None.
+
+Another test case: if the target is at the end. Let's say array [1,2,3,4,5], target 5. The process would go:
+
+Initially left=0, right=4. mid=2, element 3. 5>3 → left becomes 3. Now left and right are 3 vs 4? Wait, mid would be (3+4)//2 which is 3.5 → integer division gives 3. Let's see:
+
+At left=3, right=4, mid is (3+4)//2 = 3.5 floored to 3. So arr[3] is 4. 5 > 4, so left becomes 4. Now, mid is (4 +4)//2=4. arr[4]=5 → returns 4. So that case works.
+
+What about if the target is in between and not found? Let's see for array [2, 4, 6, 8], target 5:
+
+Start with left=0, right=3 mid=1 (element 4). 5>4, so set left to 2. Then mid is (2+3)/2=2.5 => 2, arr[2]=6 >5 → set right to 1. Now loop ends.
+
+So yeah, returning None correctly.
+
+Hmm okay, I think that code should work. Wait, what if the array has duplicates? Like [1,2,2,3], target 2. Then the code will find one of the 2's, but in any case, returning a valid index. Since the problem says to return any index? Or just needs to return one? The problem probably just needs any of them, so that's okay.
+
+Hmm. But the function is supposed to return an index if found, which is correct.
+
+Wait the question said "return code exclusively" probably meaning that the function must return only on finding the target, and only exit the loop to return None otherwise. Which the code does.
+
+So this should be correct. The code structure seems right. Let me code that out.
+</think>
+
+To solve this problem, we need to implement a binary search algorithm that efficiently finds the index of a target value in a sorted array. If the target is not present in the array, the function should return `None`.
+
+### Approach
+The binary search algorithm works by repeatedly dividing the search interval in half. Here's a step-by-step breakdown of the approach:
+
+1. **Initialization**: Start with two pointers, `left` and `right`, which represent the current bounds of the search interval. Initially, `left` is set to 0 (the start of the array), and `right` is set to the last index of the array (`len(arr) - 1`).
+
+2. **Loop Until Interval is Valid**: Continue the search while `left` is less than or equal to `right`. This ensures we cover all possible positions in the array.
+
+3. **Calculate Midpoint**: Compute the middle index `mid` of the current interval. This is done using integer division of the sum of `left` and `right` by 2.
+
+4. **Check Midpoint Value**:
+   - If the element at `mid` is the target, return `mid` as the index.
+   - If the target is less than the element at `mid`, adjust the `right` pointer to `mid - 1` to search the left half.
+   - If the target is greater, adjust the `left` pointer to `mid + 1` to search the right half.
+
+5. **Target Not Found**: If the loop exits without finding the target, return `None`.
+
+This approach efficiently narrows down the search space by half in each iteration, leading to a time complexity of O(log n), where n is the number of elements in the array. This is much faster than a linear search, especially for large arrays.
+
+### Solution Code
+```python
+from typing import Optional
+
+def binary_search(arr, target) -> Optional[int]:
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        
+        if arr[mid] == target:
+            return mid
+        elif target < arr[mid]:
+            right = mid - 1
+        else:
+            left = mid + 1
+    
+    return None
+```
+
+### Explanation
+- **Initialization**: The `left` and `right` pointers are initialized to cover the entire array.
+- **Loop Condition**: The loop continues as long as `left` is less than or equal to `right`, ensuring all possible positions are checked.
+- **Mid Calculation**: The midpoint `mid` is calculated to split the current interval. This helps in deciding which half of the array to focus on next.
+- **Adjusting Pointers**: Depending on whether the target is less than or greater than the midpoint element, the search interval is halved by adjusting `left` or `right`.
+- **Return Statement**: If the loop exits without finding the target, `None` is returned, indicating the target is not present in the array.
+
+This method is optimal for sorted arrays, leveraging divide and conquer strategy to achieve logarithmic time complexity, making it very efficient for large datasets.
