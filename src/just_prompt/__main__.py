@@ -3,6 +3,7 @@ Main entry point for just-prompt.
 """
 
 import argparse
+import asyncio
 import logging
 import os
 import sys
@@ -32,17 +33,6 @@ def main():
         help="Weak model to use for model name correction, in format provider:model"
     )
     parser.add_argument(
-        "--host", 
-        default="0.0.0.0",
-        help="Host to bind the server to"
-    )
-    parser.add_argument(
-        "--port", 
-        type=int, 
-        default=8000,
-        help="Port to bind the server to"
-    )
-    parser.add_argument(
         "--log-level", 
         choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         default="INFO",
@@ -54,13 +44,9 @@ def main():
     # Set logging level
     logging.getLogger().setLevel(getattr(logging, args.log_level))
     
-    # Set environment variables
-    os.environ["HOST"] = args.host
-    os.environ["PORT"] = str(args.port)
-    
     try:
-        # Start server
-        serve(args.weak_model)
+        # Start server (asyncio)
+        asyncio.run(serve(args.weak_model))
     except Exception as e:
         logger.error(f"Error starting server: {e}")
         sys.exit(1)

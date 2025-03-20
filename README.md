@@ -166,5 +166,47 @@ curl -X POST http://localhost:8000/list_models \
 uv run pytest
 ```
 
+## Codebase Structure
+
+```
+.
+├── ai_docs/                   # Documentation for AI model details
+│   ├── llm_providers_details.xml
+│   └── pocket-pick-mcp-server-example.xml
+├── list_models.py             # Script to list available LLM models
+├── pyproject.toml             # Python project configuration
+├── specs/                     # Project specifications
+│   └── init-just-prompt.md
+├── src/                       # Source code directory
+│   └── just_prompt/
+│       ├── __init__.py
+│       ├── __main__.py
+│       ├── atoms/             # Core components
+│       │   ├── llm_providers/ # Individual provider implementations
+│       │   │   ├── anthropic.py
+│       │   │   ├── deepseek.py
+│       │   │   ├── gemini.py
+│       │   │   ├── groq.py
+│       │   │   ├── ollama.py
+│       │   │   └── openai.py
+│       │   └── shared/        # Shared utilities and data types
+│       │       ├── data_types.py
+│       │       ├── model_router.py
+│       │       ├── utils.py
+│       │       └── validator.py
+│       ├── molecules/         # Higher-level functionality
+│       │   ├── list_models.py
+│       │   ├── list_providers.py
+│       │   ├── prompt.py
+│       │   ├── prompt_from_file.py
+│       │   └── prompt_from_file_to_file.py
+│       ├── server.py          # MCP server implementation
+│       └── tests/             # Test directory
+│           ├── atoms/         # Tests for atoms
+│           │   ├── llm_providers/
+│           │   └── shared/
+│           └── molecules/     # Tests for molecules
+```
+
 ## Context Priming
-READ README.md, ai_docs/* and run git ls-files to understand the context of the project.
+READ README.md, ai_docs/*, run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
