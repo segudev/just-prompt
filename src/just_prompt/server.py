@@ -23,6 +23,7 @@ from .atoms.shared.data_types import (
     ListModelsResponse
 )
 from .atoms.shared.utils import DEFAULT_MODEL
+from .atoms.shared.validator import print_provider_availability
 from .molecules.prompt import prompt
 from .molecules.prompt_from_file import prompt_from_file
 from .molecules.prompt_from_file_to_file import prompt_from_file_to_file
@@ -101,6 +102,9 @@ async def serve(default_models: str = DEFAULT_MODEL) -> None:
     
     logger.info(f"Starting server with default models: {default_models}")
     logger.info(f"Using correction model: {correction_model}")
+    
+    # Check and log provider availability
+    print_provider_availability()
     
     # Create the MCP server
     server = Server("just-prompt")

@@ -11,15 +11,7 @@ just-prompt is a Model Control Protocol (MCP) server that provides a unified int
 - Automatic model name correction using a "weak" model
 - Easy listing of available providers and models
 
-## Recommended Workflow
-
-1. Start claude code `claude`
-2. `> list all providers, then list all models for each provider`
-3. `> prompt 'hello' using a model for each provider`
-
 ## Installation
-
-### From Source
 
 ```bash
 # Clone the repository
@@ -38,7 +30,7 @@ Create a `.env` file with your API keys (you can copy the `.env.sample` file):
 cp .env.sample .env
 ```
 
-Then edit the `.env` file to add your API keys:
+Then edit the `.env` file to add your API keys (or export them in your shell):
 
 ```
 OPENAI_API_KEY=your_openai_api_key_here
@@ -107,7 +99,7 @@ claude mcp add just-prompt -s project \
 claude mcp add just-prompt -s project \
   -- \
   uv --directory . \
-  run just-prompt --default-models "anthropic:claude-3-7-sonnet,openai:gpt-4o,gemini:gemini-1.5-pro"
+  run just-prompt --default-models "anthropic:claude-3-7-sonnet-20250219,openai:o3-mini,gemini:gemini-2.0-flash"
 ```
 
 
@@ -119,20 +111,25 @@ claude mcp remove just-prompt
 ### Starting the Server
 
 ```bash
-python -m just_prompt.server
+uv run just-prompt
 ```
 
 Or use the command-line interface:
 
 ```bash
 # Using a single default model (default is anthropic:claude-3-7-sonnet)
-just-prompt --host 0.0.0.0 --port 8000 --default-models anthropic:claude-3-7-sonnet
+uv run just-prompt --host 0.0.0.0 --port 8000 --default-models anthropic:claude-3-7-sonnet
 
 # Using multiple default models (comma-separated)
-just-prompt --host 0.0.0.0 --port 8000 --default-models "anthropic:claude-3-7-sonnet,openai:gpt-4o,gemini:gemini-1.5-pro"
+uv run just-prompt --host 0.0.0.0 --port 8000 --default-models "anthropic:claude-3-7-sonnet,openai:gpt-4o,gemini:gemini-1.5-pro"
+
+# Check available providers without starting the server
+uv run just-prompt --show-providers
 ```
 
 The `--default-models` parameter sets the models to use when none are explicitly provided to the API endpoints. The first model in the list is also used for model name correction when needed.
+
+When starting the server, it will automatically check which API keys are available in your environment and inform you which providers you can use. If a key is missing, the provider will be listed as unavailable, but the server will still start and can be used with the providers that are available.
 
 ### API Endpoints
 

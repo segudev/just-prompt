@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "just-prompt": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        ".",
+        "run",
+        "just-prompt",
+        "--default-models",
+        "anthropic:claude-3-7-sonnet,openai:o3-mini,gemini:gemini-2.0-flash"
+      ],
+      "env": {}
+    }
+  }
+}

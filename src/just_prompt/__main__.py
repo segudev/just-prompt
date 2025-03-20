@@ -10,6 +10,7 @@ import sys
 from dotenv import load_dotenv
 from .server import serve
 from .atoms.shared.utils import DEFAULT_MODEL
+from .atoms.shared.validator import print_provider_availability
 
 # Load environment variables
 load_dotenv()
@@ -39,11 +40,23 @@ def main():
         default="INFO",
         help="Logging level"
     )
+    parser.add_argument(
+        "--show-providers",
+        action="store_true",
+        help="Show available providers and exit"
+    )
     
     args = parser.parse_args()
     
     # Set logging level
     logging.getLogger().setLevel(getattr(logging, args.log_level))
+    
+    # Show provider availability
+    print_provider_availability()
+    
+    # If --show-providers flag is provided, exit after showing provider info
+    if args.show_providers:
+        sys.exit(0)
     
     try:
         # Start server (asyncio)
