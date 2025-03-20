@@ -22,6 +22,7 @@ from .atoms.shared.data_types import (
     ListModelsRequest,
     ListModelsResponse
 )
+from .atoms.shared.utils import DEFAULT_MODEL
 from .molecules.prompt import prompt
 from .molecules.prompt_from_file import prompt_from_file
 from .molecules.prompt_from_file_to_file import prompt_from_file_to_file
@@ -81,7 +82,7 @@ class ListModelsSchema(BaseModel):
     provider: str = Field(..., description="Provider to list models for (e.g., 'openai' or 'o')")
 
 
-async def serve(default_models: str = "o:gpt-4o-mini") -> None:
+async def serve(default_models: str = DEFAULT_MODEL) -> None:
     """
     Start the MCP server.
     
@@ -146,7 +147,7 @@ async def serve(default_models: str = "o:gpt-4o-mini") -> None:
                 responses = prompt(arguments["text"], models_to_use)
                 
                 # Get the model names that were actually used
-                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini").split(",")]
+                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", DEFAULT_MODEL).split(",")]
                 
                 return [TextContent(
                     type="text",
@@ -159,7 +160,7 @@ async def serve(default_models: str = "o:gpt-4o-mini") -> None:
                 responses = prompt_from_file(arguments["file"], models_to_use)
                 
                 # Get the model names that were actually used
-                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini").split(",")]
+                models_used = models_to_use if models_to_use else [model.strip() for model in os.environ.get("DEFAULT_MODELS", DEFAULT_MODEL).split(",")]
                 
                 return [TextContent(
                     type="text",

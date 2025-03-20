@@ -17,6 +17,9 @@ logging.basicConfig(
 # Load environment variables
 load_dotenv()
 
+# Default model constants
+DEFAULT_MODEL = "anthropic:claude-3-7-sonnet"
+
 
 def split_provider_and_model(model_string: str) -> Tuple[str, str]:
     """

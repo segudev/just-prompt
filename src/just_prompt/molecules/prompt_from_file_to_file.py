@@ -7,6 +7,7 @@ import logging
 import os
 from pathlib import Path
 from .prompt_from_file import prompt_from_file
+from ..atoms.shared.utils import DEFAULT_MODEL
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +45,7 @@ def prompt_from_file_to_file(file: str, models_prefixed_by_provider: List[str] =
     # Get the models that were actually used
     models_used = models_prefixed_by_provider
     if not models_used:
-        default_models = os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini")
+        default_models = os.environ.get("DEFAULT_MODELS", DEFAULT_MODEL)
         models_used = [model.strip() for model in default_models.split(",")]
     
     for i, (model_string, response) in enumerate(zip(models_used, responses)):

@@ -7,7 +7,7 @@ import logging
 import concurrent.futures
 import os
 from ..atoms.shared.validator import validate_models_prefixed_by_provider
-from ..atoms.shared.utils import split_provider_and_model
+from ..atoms.shared.utils import split_provider_and_model, DEFAULT_MODEL
 from ..atoms.shared.model_router import ModelRouter
 
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ def prompt(text: str, models_prefixed_by_provider: List[str] = None) -> List[str
     """
     # Use default models if no models provided
     if not models_prefixed_by_provider:
-        default_models = os.environ.get("DEFAULT_MODELS", "o:gpt-4o-mini")
+        default_models = os.environ.get("DEFAULT_MODELS", DEFAULT_MODEL)
         models_prefixed_by_provider = [model.strip() for model in default_models.split(",")]
     # Validate model strings
     validate_models_prefixed_by_provider(models_prefixed_by_provider)
@@ -75,7 +75,7 @@ def prompt(text: str, models_prefixed_by_provider: List[str] = None) -> List[str
         provider, model = split_provider_and_model(model_string)
         
         # Get correction model from environment
-        correction_model = os.environ.get("CORRECTION_MODEL", "o:gpt-4o-mini")
+        correction_model = os.environ.get("CORRECTION_MODEL", DEFAULT_MODEL)
         
         # Check if model needs correction
         corrected_model = _correct_model_name(provider, model, correction_model)

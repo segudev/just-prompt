@@ -9,6 +9,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from .server import serve
+from .atoms.shared.utils import DEFAULT_MODEL
 
 # Load environment variables
 load_dotenv()
@@ -29,7 +30,7 @@ def main():
     parser = argparse.ArgumentParser(description="just-prompt - A lightweight MCP server for various LLM providers")
     parser.add_argument(
         "--default-models", 
-        default="o:gpt-4o-mini",
+        default=DEFAULT_MODEL,
         help="Comma-separated list of default models to use for prompts and model name correction, in format provider:model"
     )
     parser.add_argument(
