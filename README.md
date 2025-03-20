@@ -1,14 +1,45 @@
 # Just Prompt - A lightweight MCP server for LLM providers
 
-just-prompt is a Model Control Protocol (MCP) server that provides a unified interface to various Large Language Model (LLM) providers including OpenAI, Anthropic, Google Gemini, Groq, DeepSeek, and Ollama.
+`just-prompt` is a Model Control Protocol (MCP) server that provides a unified interface to various Large Language Model (LLM) providers including OpenAI, Anthropic, Google Gemini, Groq, DeepSeek, and Ollama.
+
+
+
+## Tools
+
+
+
+
+## Provider Prefixes
+> every model must be prefixed with the provider name
+>
+> use the short name for faster referencing
+
+- `o` or `openai`: OpenAI 
+  - `o:gpt-4o-mini`
+  - `openai:gpt-4o-mini`
+- `a` or `anthropic`: Anthropic 
+  - `a:claude-3-5-haiku`
+  - `anthropic:claude-3-5-haiku`
+- `g` or `gemini`: Google Gemini 
+  - `g:gemini-1.5-flash`
+  - `gemini:gemini-1.5-flash`
+- `q` or `groq`: Groq 
+  - `q:llama-3.1-70b-versatile`
+  - `groq:llama-3.1-70b-versatile`
+- `d` or `deepseek`: DeepSeek 
+  - `d:deepseek-coder`
+  - `deepseek:deepseek-coder`
+- `l` or `ollama`: Ollama 
+  - `l:llama3.1`
+  - `ollama:llama3.1`
 
 ## Features
 
 - Unified API for multiple LLM providers
 - Support for text prompts from strings or files
+- Run multiple models in parallel
+- Automatic model name correction using the first model in the `--default-models` list
 - Ability to save responses to files
-- Asynchronous processing of requests to multiple models
-- Automatic model name correction using a "weak" model
 - Easy listing of available providers and models
 
 ## Installation
@@ -43,9 +74,13 @@ OLLAMA_HOST=http://localhost:11434
 
 ## Claude Code Installation
 
-### Using `mcp add-json`
+Default model set to `anthropic:claude-3-7-sonnet-20250219`.
 
-With the default model set to `anthropic:claude-3-7-sonnet`.
+The `--default-models` parameter sets the models to use when none are explicitly provided to the API endpoints. The first model in the list is also used for model name correction when needed. This can be a list of models separated by commas.
+
+When starting the server, it will automatically check which API keys are available in your environment and inform you which providers you can use. If a key is missing, the provider will be listed as unavailable, but the server will still start and can be used with the providers that are available.
+
+### Using `mcp add-json`
 
 Copy this and paste it into claude code with BUT don't run until you copy the json
 
@@ -76,14 +111,14 @@ With multiple default models:
 ```
 {
     "command": "uv",
-    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet,openai:gpt-4o,gemini:gemini-1.5-pro"]
+    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-1.5-pro"]
 }
 ```
 
 ### Using `mcp add` with project scope
 
 ```bash
-# With default model (anthropic:claude-3-7-sonnet)
+# With default model (anthropic:claude-3-7-sonnet-20250219)
 claude mcp add just-prompt -s project \
   -- \
     uv --directory . \
@@ -106,118 +141,6 @@ claude mcp add just-prompt -s project \
 ## `mcp remove`
 
 claude mcp remove just-prompt
-
-
-### Starting the Server
-
-```bash
-uv run just-prompt
-```
-
-Or use the command-line interface:
-
-```bash
-# Using a single default model (default is anthropic:claude-3-7-sonnet)
-uv run just-prompt --host 0.0.0.0 --port 8000 --default-models anthropic:claude-3-7-sonnet
-
-# Using multiple default models (comma-separated)
-uv run just-prompt --host 0.0.0.0 --port 8000 --default-models "anthropic:claude-3-7-sonnet,openai:gpt-4o,gemini:gemini-1.5-pro"
-
-# Check available providers without starting the server
-uv run just-prompt --show-providers
-```
-
-The `--default-models` parameter sets the models to use when none are explicitly provided to the API endpoints. The first model in the list is also used for model name correction when needed.
-
-When starting the server, it will automatically check which API keys are available in your environment and inform you which providers you can use. If a key is missing, the provider will be listed as unavailable, but the server will still start and can be used with the providers that are available.
-
-### API Endpoints
-
-#### Send a Prompt
-
-```bash
-# Using specific models
-curl -X POST http://localhost:8000/prompt \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "What is the capital of France?",
-    "models_prefixed_by_provider": ["anthropic:claude-3-7-sonnet", "openai:gpt-4o"]
-  }'
-
-# Using default models (set when starting the server)
-curl -X POST http://localhost:8000/prompt \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "What is the capital of France?"
-  }'
-```
-
-#### Send a Prompt from a File
-
-```bash
-# Using specific models
-curl -X POST http://localhost:8000/prompt_from_file \
-  -H "Content-Type: application/json" \
-  -d '{
-    "file": "/path/to/prompt.txt",
-    "models_prefixed_by_provider": ["anthropic:claude-3-7-sonnet", "openai:gpt-4o"]
-  }'
-
-# Using default models
-curl -X POST http://localhost:8000/prompt_from_file \
-  -H "Content-Type: application/json" \
-  -d '{
-    "file": "/path/to/prompt.txt"
-  }'
-```
-
-#### Send a Prompt from a File and Save Responses to Files
-
-```bash
-# Using specific models
-curl -X POST http://localhost:8000/prompt_from_file_to_file \
-  -H "Content-Type: application/json" \
-  -d '{
-    "file": "/path/to/prompt.txt",
-    "models_prefixed_by_provider": ["anthropic:claude-3-7-sonnet", "openai:gpt-4o"],
-    "output_dir": "/path/to/output"
-  }'
-
-# Using default models
-curl -X POST http://localhost:8000/prompt_from_file_to_file \
-  -H "Content-Type: application/json" \
-  -d '{
-    "file": "/path/to/prompt.txt",
-    "output_dir": "/path/to/output"
-  }'
-```
-
-#### List Providers
-
-```bash
-curl -X POST http://localhost:8000/list_providers \
-  -H "Content-Type: application/json" \
-  -d '{}'
-```
-
-#### List Models for a Provider
-
-```bash
-curl -X POST http://localhost:8000/list_models \
-  -H "Content-Type: application/json" \
-  -d '{
-    "provider": "ollama"
-  }'
-```
-
-## Provider Prefixes
-
-- `o` or `openai`: OpenAI (e.g., `o:gpt-4o-mini`)
-- `a` or `anthropic`: Anthropic (e.g., `a:claude-3-5-haiku`)
-- `g` or `gemini`: Google Gemini (e.g., `g:gemini-1.5-flash`)
-- `q` or `groq`: Groq (e.g., `q:llama-3.1-70b-versatile`)
-- `d` or `deepseek`: DeepSeek (e.g., `d:deepseek-coder`)
-- `l` or `ollama`: Ollama (e.g., `l:llama3.1`)
 
 ## Running Tests
 
