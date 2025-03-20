@@ -58,14 +58,10 @@ def list_models() -> List[str]:
     Returns:
         List of model names
     """
-    try:
-        logger.info("Listing Ollama models")
-        response = ollama.list()
+    logger.info("Listing Ollama models")
+    response = ollama.list()
 
-        # Extract model names
-        models = [model.get("name") for model in response.get("models", [])]
+    # Extract model names from the models attribute
+    models = [model.model for model in response.models]
 
-        return models
-    except Exception as e:
-        logger.error(f"Error listing Ollama models: {e}")
-        return []
+    return models

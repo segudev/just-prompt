@@ -21,7 +21,7 @@ git clone https://github.com/yourusername/just-prompt.git
 cd just-prompt
 
 # Install with pip
-pip install -e .
+uv sync
 ```
 
 ### Environment Variables
@@ -43,7 +43,42 @@ DEEPSEEK_API_KEY=your_deepseek_api_key_here
 OLLAMA_HOST=http://localhost:11434
 ```
 
-## Usage
+## Claude Code Installation
+
+### Using `mcp add-json`
+
+With the default weak model set to `openai:gpt-4o-mini`.
+
+
+```
+{
+    "command": "uv",
+    "args": ["--directory", ".", "run", "just-prompt"]
+}
+```
+
+With the default weak model set to `anthropic:claude-3-5-haiku`.
+
+```
+{
+    "command": "uv",
+    "args": ["--directory", ".", "run", "just-prompt", "--weak-model", "anthropic:claude-3-5-haiku"]
+}
+```
+
+Copy this and add it to claude code with...
+
+```
+claude mcp add just-prompt "$(pbpaste)""
+```
+
+
+### Using `mcp add`
+
+claude mcp add just-prompt -- \
+    uv --directory . \
+    run just-prompt
+
 
 ### Starting the Server
 
@@ -107,7 +142,7 @@ curl -X POST http://localhost:8000/list_providers \
 curl -X POST http://localhost:8000/list_models \
   -H "Content-Type: application/json" \
   -d '{
-    "provider": "openai"
+    "provider": "ollama"
   }'
 ```
 

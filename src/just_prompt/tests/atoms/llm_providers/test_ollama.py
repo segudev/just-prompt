@@ -15,6 +15,7 @@ def test_list_models():
     """Test listing Ollama models."""
     models = ollama.list_models()
     assert isinstance(models, list)
+    assert isinstance(models[0], str)
     assert len(models) > 0
 
 
