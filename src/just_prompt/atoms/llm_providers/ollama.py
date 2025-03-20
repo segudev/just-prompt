@@ -14,10 +14,6 @@ load_dotenv()
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# Set Ollama host if provided
-if os.environ.get("OLLAMA_HOST"):
-    ollama.set_host(os.environ.get("OLLAMA_HOST"))
-
 
 def prompt(text: str, model: str) -> str:
     """
