@@ -6,7 +6,40 @@
 
 ## Tools
 
+The following MCP tools are available in the server:
 
+- **`prompt`**: Send a prompt to multiple LLM models
+  - Parameters:
+    - `text`: The prompt text
+    - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
+
+- **`prompt_from_file`**: Send a prompt from a file to multiple LLM models
+  - Parameters:
+    - `file`: Path to the file containing the prompt
+    - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
+
+- **`prompt_from_file_to_file`**: Send a prompt from a file to multiple LLM models and save responses to files
+  - Parameters:
+    - `file`: Path to the file containing the prompt
+    - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
+    - `output_dir` (default: "."): Directory to save the response files to
+
+- **`list_providers`**: List all available LLM providers
+  - Parameters: None
+
+- **`list_models`**: List all available models for a specific LLM provider
+  - Parameters:
+    - `provider`: Provider to list models for (e.g., 'openai' or 'o')
+
+### Example Usage
+
+```bash
+# Start the server (automatically provides these tools via MCP)
+uv run just-prompt
+
+# Check available providers
+uv run just-prompt --show-providers
+```
 
 
 ## Provider Prefixes
