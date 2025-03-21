@@ -224,7 +224,7 @@ uv run pytest
 ```
 
 ## Context Priming
-READ README.md, specs/*,run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
+READ README.md, then run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
 
 ## Resources
 - https://docs.anthropic.com/en/api/models-list?q=list+models
