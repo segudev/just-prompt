@@ -33,7 +33,7 @@ prompts_from_file_to_file(
 
 ## Task 4: Read the output files and synthesize
 
-Then read the output files and synthesize the results into a new single file called `ultra_diff_review/fusion_ultra_diff_review.md`.
+Then read the output files and think hard to synthesize the results into a new single file called `ultra_diff_review/fusion_ultra_diff_review.md` following the original instructions plus any additional instructions or callouts you think are needed to create the best possible review.
 
 ## Task 5: Present the results
 
