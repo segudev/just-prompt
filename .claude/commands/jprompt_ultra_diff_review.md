@@ -1,6 +1,6 @@
 # Ultra Diff Review
 
-## Task 1: Create a new file called diff.md.
+## Task 1: Create diff.txt
 
 Create a new file called diff.md.
 
@@ -15,11 +15,11 @@ Use emojis to convey the severity of each issue.
 ## Diff
 ```
 
-## Task 2: Run git diff and append the output to the file.
+## Task 2: git diff and append
 
 Then run git diff and append the output to the file.
 
-## Task 3: Use that file as the input to this just-prompt tool call.
+## Task 3: just-prompt multi-llm tool call
 
 Then use that file as the input to this just-prompt tool call.
 
@@ -29,10 +29,10 @@ prompts_from_file_to_file(
     output_dir = ultra_diff_review/
 )
 
-## Task 4: Read the output files and synthesize the results into a new single file called `ultra_diff_review/fusion_ultra_diff_review.md`.
+## Task 4: Read the output files and synthesize
 
 Then read the output files and synthesize the results into a new single file called `ultra_diff_review/fusion_ultra_diff_review.md`.
 
-## Task 5: Let me know which issues you think are worth resolving if any and we'll proceed from there.
+## Task 5: Present the results
 
 Then let me know which issues you think are worth resolving and we'll proceed from there.
