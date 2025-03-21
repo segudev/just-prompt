@@ -226,6 +226,28 @@ uv run pytest
 ## Context Priming
 READ README.md, then run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
 
+## Thinking Tokens with Claude
+
+The Anthropic Claude model `claude-3-7-sonnet-20250219` supports extended thinking capabilities using thinking tokens. This allows Claude to do more thorough thought processes before answering.
+
+You can enable thinking tokens by adding a suffix to the model name in this format:
+- `anthropic:claude-3-7-sonnet-20250219:1k` - Use 1024 thinking tokens
+- `anthropic:claude-3-7-sonnet-20250219:4k` - Use 4096 thinking tokens
+- `anthropic:claude-3-7-sonnet-20250219:8000` - Use 8000 thinking tokens
+
+Example usage:
+```bash
+# Using 4k thinking tokens with Claude
+uv run just-prompt prompt "Analyze the advantages and disadvantages of quantum computing vs classical computing" \
+  --models-prefixed-by-provider anthropic:claude-3-7-sonnet-20250219:4k
+```
+
+Notes:
+- Thinking tokens are only supported for the `claude-3-7-sonnet-20250219` model
+- Valid thinking token budgets range from 1024 to 16000
+- Values outside this range will be automatically adjusted to be within range
+- You can specify the budget with k notation (1k, 4k, etc.) or with exact numbers (1024, 4096, etc.)
+
 ## Resources
 - https://docs.anthropic.com/en/api/models-list?q=list+models
 - https://github.com/googleapis/python-genai
