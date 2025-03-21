@@ -1,1 +1,1 @@
-hi how are you $ARGUMENTS my age is $ARGUMENTS
+hi how are you $ARGUMENTS
