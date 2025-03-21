@@ -52,10 +52,10 @@ def prompt_from_file_to_file(file: str, models_prefixed_by_provider: List[str] =
         # Sanitize model string for filename (replace colons with underscores)
         safe_model_name = model_string.replace(":", "_")
         
-        # Create output filename
-        output_file = output_path / f"{input_file_name}_{safe_model_name}.txt"
+        # Create output filename with .md extension
+        output_file = output_path / f"{input_file_name}_{safe_model_name}.md"
         
-        # Write response to file
+        # Write response to file as markdown
         try:
             with open(output_file, 'w', encoding='utf-8') as f:
                 f.write(response)

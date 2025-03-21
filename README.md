@@ -18,11 +18,11 @@ The following MCP tools are available in the server:
     - `file`: Path to the file containing the prompt
     - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
 
-- **`prompt_from_file_to_file`**: Send a prompt from a file to multiple LLM models and save responses to files
+- **`prompt_from_file_to_file`**: Send a prompt from a file to multiple LLM models and save responses as markdown files
   - Parameters:
     - `file`: Path to the file containing the prompt
     - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
-    - `output_dir` (default: "."): Directory to save the response files to
+    - `output_dir` (default: "."): Directory to save the response markdown files to
 
 - **`list_providers`**: List all available LLM providers
   - Parameters: None

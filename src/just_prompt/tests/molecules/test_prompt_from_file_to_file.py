@@ -38,6 +38,9 @@ def test_directory_creation_and_file_writing():
         # Check that the file exists
         assert os.path.exists(file_paths[0])
         
+        # Check that the file has a .md extension
+        assert file_paths[0].endswith('.md')
+        
         # Check file content contains the expected response
         with open(file_paths[0], 'r') as f:
             content = f.read()
