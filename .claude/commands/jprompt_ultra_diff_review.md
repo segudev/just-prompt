@@ -1,5 +1,5 @@
 # Ultra Diff Review
-> Execute each task in the order given.
+> Execute each task in the order given to conduct a thorough code review.
 
 ## Task 1: Create diff.txt
 
