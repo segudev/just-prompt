@@ -9,6 +9,7 @@ End with a concise table of any issues, solutions, and a risk assessment for eac
 Use emojis to convey the severity of each issue.
 
 ## Diff
+
 ```
 
 Then run git diff and append the output to the file.
