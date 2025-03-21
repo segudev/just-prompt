@@ -1,4 +1,8 @@
-Run 'git diff > diff.txt' 
+Create a new file called diff.txt.
+
+At the top of the file, add "Review the diff, report on issues, bugs, and improvements. End with a list of issues, solutions, and a risk assessment for each issue if applicable.\n\n## Diff\n\n"
+
+Then run git diff and append the output to the file.
 
 Then use that file as the input to this just-prompt tool call.
 
