@@ -29,17 +29,6 @@ The following MCP tools are available in the server:
   - Parameters:
     - `provider`: Provider to list models for (e.g., 'openai' or 'o')
 
-### Example Usage
-
-```bash
-# Start the server (automatically provides these tools via MCP)
-uv run just-prompt
-
-# Check available providers
-uv run just-prompt --show-providers
-```
-
-
 ## Provider Prefixes
 > every model must be prefixed with the provider name
 >
