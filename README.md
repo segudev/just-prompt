@@ -142,7 +142,7 @@ With multiple default models:
 ```
 {
     "command": "uv",
-    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-1.5-pro"]
+    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-2.0-flash"]
 }
 ```
 
@@ -162,10 +162,10 @@ claude mcp add just-prompt -s project \
   run just-prompt --default-models "openai:gpt-4o"
 
 # With multiple default models
-claude mcp add just-prompt -s project \
+claude mcp add just-prompt -s user \
   -- \
   uv --directory . \
-  run just-prompt --default-models "anthropic:claude-3-7-sonnet-20250219,openai:o3-mini,gemini:gemini-2.0-flash"
+  run just-prompt --default-models "anthropic:claude-3-7-sonnet-20250219:4k,openai:o3-mini,gemini:gemini-2.0-flash,openai:gpt-4.5-preview,gemini:gemini-2.5-pro-exp-03-25"
 ```
 
 
