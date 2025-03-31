@@ -52,8 +52,8 @@ uv run just-prompt --show-providers
   - `a:claude-3-5-haiku`
   - `anthropic:claude-3-5-haiku`
 - `g` or `gemini`: Google Gemini 
-  - `g:gemini-1.5-flash`
-  - `gemini:gemini-1.5-flash`
+  - `g:gemini-2.5-pro-exp-03-25`
+  - `gemini:gemini:gemini-2.5-pro-exp-03-25`
 - `q` or `groq`: Groq 
   - `q:llama-3.1-70b-versatile`
   - `groq:llama-3.1-70b-versatile`
@@ -142,7 +142,7 @@ With multiple default models:
 ```
 {
     "command": "uv",
-    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-2.0-flash"]
+    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-2.5-pro-exp-03-25"]
 }
 ```
 
