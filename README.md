@@ -96,6 +96,28 @@ OLLAMA_HOST=http://localhost:11434
 
 Default model set to `anthropic:claude-3-7-sonnet-20250219`.
 
+If you use Claude Code right out of the repository you can see in the .mcp.json file we set the default models to...
+
+```
+{
+  "mcpServers": {
+    "just-prompt": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        ".",
+        "run",
+        "just-prompt",
+        "--default-models",
+        "anthropic:claude-3-7-sonnet-20250219,openai:o3-mini,gemini:gemini-2.5-pro-exp-03-25"
+      ],
+      "env": {}
+    }
+  }
+}
+```
+
 The `--default-models` parameter sets the models to use when none are explicitly provided to the API endpoints. The first model in the list is also used for model name correction when needed. This can be a list of models separated by commas.
 
 When starting the server, it will automatically check which API keys are available in your environment and inform you which providers you can use. If a key is missing, the provider will be listed as unavailable, but the server will still start and can be used with the providers that are available.
