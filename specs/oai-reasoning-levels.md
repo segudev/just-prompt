@@ -22,5 +22,7 @@ src/just_prompt/tests/atoms/llm_providers/test_openai.py
 
 ## Self Validation (Close the loop)
 > After implementing the feature, run the tests to verify it works.
+>
+> All env variables are in place - run tests against real apis.
 - uv run pytest src/just_prompt/tests/atoms/llm_providers/test_openai.py
 - uv run pytest src/just_prompt/tests/molecules/test_prompt.py
