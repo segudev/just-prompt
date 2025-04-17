@@ -1,5 +1,7 @@
 Feature Request: Add low, medium, high reasoning levels to the OpenAI o-series reasoning models
-> o3-mini, o4-mini, o3
+> Models; o3-mini, o4-mini, o3
+>
+> Implement every detail below end to end and validate your work with tests.
 
 ## Implementation Notes
 
