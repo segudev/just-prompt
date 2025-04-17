@@ -39,6 +39,7 @@ Feature Request: LLM as a CEO
 - Once they've been created, the ceo_and_board_prompt will read in the board member's responses, and the original question prompt into the ceo_decision_prompt and make another call with the ceo_model to get a decision. Write the decision to a file in the output_dir/ceo_decision.md.
 - Be sure to validate this functionality with uv run pytest <path-to-test-file>
 - After you implement update the README.md with the new tool's functionality and run `git ls-files` to update the directory tree in the readme with the new files.
+- Make sure this functionality works end to end. This functionality will be exposed as an MCP tool in the server.py file.
 
 ## Relevant Files
 - src/just_prompt/server.py
@@ -54,3 +55,4 @@ Feature Request: LLM as a CEO
 > Be sure to test this new capability with uv run pytest.
 
 - `uv run pytest src/just_prompt/tests/molecules/test_ceo_and_board_prompt.py`
+- `uv run just-prompt --help` to validate the tool works as expected.
