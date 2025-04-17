@@ -267,13 +267,6 @@ You can enable thinking tokens by adding a suffix to the model name in this form
 - `anthropic:claude-3-7-sonnet-20250219:4k` - Use 4096 thinking tokens
 - `anthropic:claude-3-7-sonnet-20250219:8000` - Use 8000 thinking tokens
 
-Example usage:
-```bash
-# Using 4k thinking tokens with Claude
-uv run just-prompt prompt "Analyze the advantages and disadvantages of quantum computing vs classical computing" \
-  --models-prefixed-by-provider anthropic:claude-3-7-sonnet-20250219:4k
-```
-
 Notes:
 - Thinking tokens are only supported for the `claude-3-7-sonnet-20250219` model
 - Valid thinking token budgets range from 1024 to 16000
