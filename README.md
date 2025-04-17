@@ -2,6 +2,8 @@
 
 `just-prompt` is a Model Control Protocol (MCP) server that provides a unified interface to various Large Language Model (LLM) providers including OpenAI, Anthropic, Google Gemini, Groq, DeepSeek, and Ollama.
 
+<img src="images/just-prompt-logo.png" alt="Just Prompt Logo" width="700" height="700">
+
 ## Tools
 
 The following MCP tools are available in the server:
@@ -21,6 +23,13 @@ The following MCP tools are available in the server:
     - `file`: Path to the file containing the prompt
     - `models_prefixed_by_provider` (optional): List of models with provider prefixes. If not provided, uses default models.
     - `output_dir` (default: "."): Directory to save the response markdown files to
+
+- **`ceo_and_board`**: Send a prompt to multiple 'board member' models and have a 'CEO' model make a decision based on their responses
+  - Parameters:
+    - `file`: Path to the file containing the prompt
+    - `models_prefixed_by_provider` (optional): List of models with provider prefixes to act as board members. If not provided, uses default models.
+    - `output_dir` (default: "."): Directory to save the response files and CEO decision
+    - `ceo_model` (default: "openai:o3"): Model to use for the CEO decision in format "provider:model"
 
 - **`list_providers`**: List all available LLM providers
   - Parameters: None
@@ -195,12 +204,18 @@ uv run pytest
 ```
 .
 ├── ai_docs/                   # Documentation for AI model details
+│   ├── extending_thinking_sonny.md
 │   ├── llm_providers_details.xml
+│   ├── openai-reasoning-effort.md
 │   └── pocket-pick-mcp-server-example.xml
+├── example_outputs/           # Example outputs from different models
 ├── list_models.py             # Script to list available LLM models
+├── prompts/                   # Example prompt files
 ├── pyproject.toml             # Python project configuration
 ├── specs/                     # Project specifications
-│   └── init-just-prompt.md
+│   ├── init-just-prompt.md
+│   ├── new-tool-llm-as-a-ceo.md
+│   └── oai-reasoning-levels.md
 ├── src/                       # Source code directory
 │   └── just_prompt/
 │       ├── __init__.py
@@ -219,6 +234,7 @@ uv run pytest
 │       │       ├── utils.py
 │       │       └── validator.py
 │       ├── molecules/         # Higher-level functionality
+│       │   ├── ceo_and_board_prompt.py
 │       │   ├── list_models.py
 │       │   ├── list_providers.py
 │       │   ├── prompt.py
@@ -230,6 +246,13 @@ uv run pytest
 │           │   ├── llm_providers/
 │           │   └── shared/
 │           └── molecules/     # Tests for molecules
+│               ├── test_ceo_and_board_prompt.py
+│               ├── test_list_models.py
+│               ├── test_list_providers.py
+│               ├── test_prompt.py
+│               ├── test_prompt_from_file.py
+│               └── test_prompt_from_file_to_file.py
+└── ultra_diff_review/         # Diff review outputs
 ```
 
 ## Context Priming
