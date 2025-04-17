@@ -2,7 +2,7 @@
 
 `just-prompt` is a Model Control Protocol (MCP) server that provides a unified interface to various Large Language Model (LLM) providers including OpenAI, Anthropic, Google Gemini, Groq, DeepSeek, and Ollama.
 
-<img src="images/just-prompt-logo.png" alt="Just Prompt Logo" width="700" height="700">
+<img src="images/just-prompt-logo.png" alt="Just Prompt Logo" width="700" height="auto">
 
 ## Tools
 
