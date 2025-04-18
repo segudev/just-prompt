@@ -11,10 +11,11 @@
 - Update tests to verify the feature works, specifically in test_gemini.py. Test with gemini-2.5-flash-preview-04-17 with and without the thinking_budget parameter.
 - This only works with the gemini-2.5-flash-preview-04-17 model but assume more models like this will be added in the future and check against the model name from a list so we can easily add them later.
 - After you implement and test, update the README.md file to detail the new feature.
-- We're using 'uv' to run code and test. You won't need to install anything just testing.
+- We're using 'uv run pytest <file>' to run tests. You won't need to run any other commands or install anything only testing.
 - Keep all the essential logic surrounding this change in gemini.py just like how anthropic.py sets this up for it's version (thinking_budget).
 - No need to update any libraries or packages.
 - So if we pass in something like: `gemini:gemini-2.5-flash-preview-04-17`, run the normal prompt function. If we pass in: `gemini:gemini-2.5-flash-preview-04-17:4k`, run the prompt_with_thinking function with 4000 thinking budget. Mirror anthropic.py's logic.
+- Update gemini.py to use the new import and client setup via `from google import genai` and `client = genai.Client(api_key="GEMINI_API_KEY")`.
 
 ## Relevant Files (Context)
 > Read these files before implementing the feature.
