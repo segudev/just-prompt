@@ -256,7 +256,7 @@ uv run pytest
 ```
 
 ## Context Priming
-READ README.md, then run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
+READ README.md, pyproject.toml, then run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
 
 ## Thinking Tokens with Claude
 
