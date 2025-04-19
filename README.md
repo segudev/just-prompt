@@ -258,7 +258,31 @@ uv run pytest
 ## Context Priming
 READ README.md, pyproject.toml, then run git ls-files, and 'eza --git-ignore --tree' to understand the context of the project.
 
-## Thinking Tokens with Claude
+# Reasoning Effort with OpenAI o‑Series
+
+For OpenAI o‑series reasoning models (`o4-mini`, `o3-mini`, `o3`) you can
+control how much *internal* reasoning the model performs before producing a
+visible answer.
+
+Append one of the following suffixes to the model name (after the *provider*
+prefix):
+
+* `:low`   – minimal internal reasoning (faster, cheaper)
+* `:medium` – balanced (default if omitted)
+* `:high`  – thorough reasoning (slower, more tokens)
+
+Examples:
+
+* `openai:o4-mini:low`
+* `o:o4-mini:high`
+
+When a reasoning suffix is present, **just‑prompt** automatically switches to
+the OpenAI *Responses* API (when available) and sets the corresponding
+`reasoning.effort` parameter.  If the installed OpenAI SDK is older, it
+gracefully falls back to the Chat Completions endpoint and embeds an internal
+system instruction to approximate the requested effort level.
+
+# Thinking Tokens with Claude
 
 The Anthropic Claude model `claude-3-7-sonnet-20250219` supports extended thinking capabilities using thinking tokens. This allows Claude to do more thorough thought processes before answering.
 
