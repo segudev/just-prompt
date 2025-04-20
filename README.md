@@ -297,6 +297,21 @@ Notes:
 - Values outside this range will be automatically adjusted to be within range
 - You can specify the budget with k notation (1k, 4k, etc.) or with exact numbers (1024, 4096, etc.)
 
+# Thinking Budget with Gemini
+
+The Google Gemini model `gemini-2.5-flash-preview-04-17` supports extended thinking capabilities using thinking budget. This allows Gemini to perform more thorough reasoning before providing a response.
+
+You can enable thinking budget by adding a suffix to the model name in this format:
+- `gemini:gemini-2.5-flash-preview-04-17:1k` - Use 1024 thinking budget
+- `gemini:gemini-2.5-flash-preview-04-17:4k` - Use 4096 thinking budget
+- `gemini:gemini-2.5-flash-preview-04-17:8000` - Use 8000 thinking budget
+
+Notes:
+- Thinking budget is only supported for the `gemini-2.5-flash-preview-04-17` model
+- Valid thinking budget range from 0 to 24576
+- Values outside this range will be automatically adjusted to be within range
+- You can specify the budget with k notation (1k, 4k, etc.) or with exact numbers (1024, 4096, etc.)
+
 ## Resources
 - https://docs.anthropic.com/en/api/models-list?q=list+models
 - https://github.com/googleapis/python-genai
