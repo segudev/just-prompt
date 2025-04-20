@@ -103,7 +103,7 @@ OLLAMA_HOST=http://localhost:11434
 
 ## Claude Code Installation
 
-Default model set to `anthropic:claude-3-7-sonnet-20250219`.
+Default models set to `openai:o3:high`, `openai:o4-mini:high`, `anthropic:claude-3-7-sonnet-20250219:4k`, `gemini:gemini-2.5-pro-preview-03-25`, and `gemini:gemini-2.5-flash-preview-04-17`.
 
 If you use Claude Code right out of the repository you can see in the .mcp.json file we set the default models to...
 
@@ -119,7 +119,7 @@ If you use Claude Code right out of the repository you can see in the .mcp.json 
         "run",
         "just-prompt",
         "--default-models",
-        "anthropic:claude-3-7-sonnet-20250219,openai:o3-mini,gemini:gemini-2.5-pro-exp-03-25"
+        "openai:o3:high,openai:o4-mini:high,anthropic:claude-3-7-sonnet-20250219:4k,gemini:gemini-2.5-pro-preview-03-25,gemini:gemini-2.5-flash-preview-04-17"
       ],
       "env": {}
     }
@@ -162,14 +162,14 @@ With multiple default models:
 ```
 {
     "command": "uv",
-    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "anthropic:claude-3-7-sonnet-20250219,openai:gpt-4o,gemini:gemini-2.5-pro-exp-03-25"]
+    "args": ["--directory", ".", "run", "just-prompt", "--default-models", "openai:o3:high,openai:o4-mini:high,anthropic:claude-3-7-sonnet-20250219:4k,gemini:gemini-2.5-pro-preview-03-25,gemini:gemini-2.5-flash-preview-04-17"]
 }
 ```
 
 ### Using `mcp add` with project scope
 
 ```bash
-# With default model (anthropic:claude-3-7-sonnet-20250219)
+# With default models
 claude mcp add just-prompt -s project \
   -- \
     uv --directory . \
@@ -185,7 +185,7 @@ claude mcp add just-prompt -s project \
 claude mcp add just-prompt -s user \
   -- \
   uv --directory . \
-  run just-prompt --default-models "anthropic:claude-3-7-sonnet-20250219:4k,openai:o3-mini,gemini:gemini-2.0-flash,openai:gpt-4.5-preview,gemini:gemini-2.5-pro-exp-03-25"
+  run just-prompt --default-models "openai:o3:high,openai:o4-mini:high,anthropic:claude-3-7-sonnet-20250219:4k,gemini:gemini-2.5-pro-preview-03-25,gemini:gemini-2.5-flash-preview-04-17"
 ```
 
 
