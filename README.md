@@ -105,6 +105,7 @@ OLLAMA_HOST=http://localhost:11434
 ```
 
 ## Claude Code Installation
+> In all these examples, replace the directory with the path to the just-prompt directory.
 
 Default models set to `openai:o3:high`, `openai:o4-mini:high`, `anthropic:claude-3-7-sonnet-20250219:4k`, `gemini:gemini-2.5-pro-preview-03-25`, and `gemini:gemini-2.5-flash-preview-04-17`.
 
@@ -188,7 +189,7 @@ claude mcp add just-prompt -s project \
 claude mcp add just-prompt -s user \
   -- \
   uv --directory . \
-  run just-prompt --default-models "openai:o3:high,openai:o4-mini:high,anthropic:claude-3-7-sonnet-20250219:4k,gemini:gemini-2.5-pro-preview-03-25,gemini:gemini-2.5-flash-preview-04-17"
+  run just-prompt --default-models "openai:o3:high,openai:o4-mini:high,anthropic:claude-3-7-sonnet-20250219:4k,gemini:gemini-2.5-pro-preview-03-25,gemini:gemini-2.5-flash-preview-04-17:4k"
 ```
 
 
