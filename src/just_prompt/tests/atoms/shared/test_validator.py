@@ -16,9 +16,9 @@ from just_prompt.atoms.shared.validator import (
 def test_validate_models_prefixed_by_provider():
     """Test validating model strings."""
     # Valid model strings
-    assert validate_models_prefixed_by_provider(["openai:gpt-4o-mini"]) == True
-    assert validate_models_prefixed_by_provider(["anthropic:claude-3-5-haiku"]) == True
-    assert validate_models_prefixed_by_provider(["o:gpt-4o-mini", "a:claude-3-5-haiku"]) == True
+    assert validate_models_prefixed_by_provider(["openai:o4-mini"]) == True
+    assert validate_models_prefixed_by_provider(["anthropic:claude-sonnet-4-20250514"]) == True
+    assert validate_models_prefixed_by_provider(["o:o4-mini", "a:claude-sonnet-4-20250514"]) == True
     
     # Invalid model strings
     with pytest.raises(ValueError):

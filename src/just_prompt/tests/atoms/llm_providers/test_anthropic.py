@@ -32,7 +32,7 @@ def test_list_models():
 def test_prompt():
     """Test sending prompt to Anthropic."""
     # Use the correct model name from the available models
-    response = anthropic.prompt("What is the capital of France?", "claude-3-5-haiku-20241022")
+    response = anthropic.prompt("What is the capital of France?", "claude-sonnet-4-20250514")
     
     # Assertions
     assert isinstance(response, str)
@@ -47,28 +47,28 @@ def test_parse_thinking_suffix():
     assert anthropic.parse_thinking_suffix("claude-3-5-haiku-20241022") == ("claude-3-5-haiku-20241022", 0)
     
     # Test cases with supported model and k suffixes
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:1k") == ("claude-3-7-sonnet-20250219", 1024)
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:4k") == ("claude-3-7-sonnet-20250219", 4096)
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:15k") == ("claude-3-7-sonnet-20250219", 15360)  # 15*1024=15360 < 16000
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:1k") == ("claude-sonnet-4-20250514", 1024)
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:4k") == ("claude-sonnet-4-20250514", 4096)
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:15k") == ("claude-sonnet-4-20250514", 15360)  # 15*1024=15360 < 16000
     
     # Test cases with supported model and numeric suffixes
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:1024") == ("claude-3-7-sonnet-20250219", 1024)
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:4096") == ("claude-3-7-sonnet-20250219", 4096)
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:8000") == ("claude-3-7-sonnet-20250219", 8000)
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:1024") == ("claude-sonnet-4-20250514", 1024)
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:4096") == ("claude-sonnet-4-20250514", 4096)
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:8000") == ("claude-sonnet-4-20250514", 8000)
     
     # Test cases with non-supported model
     assert anthropic.parse_thinking_suffix("claude-3-7-sonnet:1k") == ("claude-3-7-sonnet", 0)
     assert anthropic.parse_thinking_suffix("claude-3-5-haiku:4k") == ("claude-3-5-haiku", 0)
     
     # Test cases with out-of-range values (should adjust to valid range)
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:500") == ("claude-3-7-sonnet-20250219", 1024)  # Below min 1024, should use 1024
-    assert anthropic.parse_thinking_suffix("claude-3-7-sonnet-20250219:20000") == ("claude-3-7-sonnet-20250219", 16000)  # Above max 16000, should use 16000
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:500") == ("claude-sonnet-4-20250514", 1024)  # Below min 1024, should use 1024
+    assert anthropic.parse_thinking_suffix("claude-sonnet-4-20250514:20000") == ("claude-sonnet-4-20250514", 16000)  # Above max 16000, should use 16000
 
 
 def test_prompt_with_thinking():
     """Test sending prompt with thinking enabled."""
     # Test with 1k thinking tokens on the supported model
-    response = anthropic.prompt("What is the capital of Spain?", "claude-3-7-sonnet-20250219:1k")
+    response = anthropic.prompt("What is the capital of Spain?", "claude-sonnet-4-20250514:1k")
     
     # Assertions
     assert isinstance(response, str)
@@ -76,7 +76,7 @@ def test_prompt_with_thinking():
     assert "madrid" in response.lower() or "Madrid" in response
     
     # Test with 2k thinking tokens on the supported model
-    response = anthropic.prompt("What is the capital of Germany?", "claude-3-7-sonnet-20250219:2k")
+    response = anthropic.prompt("What is the capital of Germany?", "claude-sonnet-4-20250514:2k")
     
     # Assertions
     assert isinstance(response, str)
@@ -84,7 +84,7 @@ def test_prompt_with_thinking():
     assert "berlin" in response.lower() or "Berlin" in response
     
     # Test with out-of-range but auto-corrected thinking tokens
-    response = anthropic.prompt("What is the capital of Italy?", "claude-3-7-sonnet-20250219:500")
+    response = anthropic.prompt("What is the capital of Italy?", "claude-sonnet-4-20250514:500")
     
     # Assertions (should still work with a corrected budget of 1024)
     assert isinstance(response, str)

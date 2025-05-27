@@ -45,8 +45,8 @@ def parse_thinking_suffix(model: str) -> Tuple[str, int]:
     base_model = match.group(1)
     thinking_suffix = match.group(2)
     
-    # Validate the model - only claude-3-7-sonnet-20250219 supports thinking
-    if base_model != "claude-3-7-sonnet-20250219":
+    # Validate the model - only claude-sonnet-4-20250514 supports thinking
+    if base_model != "claude-sonnet-4-20250514":
         logger.warning(f"Model {base_model} does not support thinking, ignoring thinking suffix")
         return base_model, 0
     
@@ -174,11 +174,5 @@ def list_models() -> List[str]:
         # Return some known models if API fails
         logger.info("Returning hardcoded list of known Anthropic models")
         return [
-            "claude-3-7-sonnet",
-            "claude-3-5-sonnet",
-            "claude-3-5-sonnet-20240620",
-            "claude-3-opus-20240229",
-            "claude-3-sonnet-20240229",
-            "claude-3-haiku-20240307",
-            "claude-3-5-haiku",
+            "claude-sonnet-4-20250514",
         ]

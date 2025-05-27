@@ -40,7 +40,7 @@ client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 # ---------------------------------------------------------------------------
 
 
-_REASONING_ELIGIBLE_MODELS = {"o4-mini", "o3-mini", "o3"}
+_REASONING_ELIGIBLE_MODELS = {"o4-mini", "o3"}
 _REASONING_LEVELS = {"low", "medium", "high"}
 
 
@@ -172,9 +172,6 @@ def list_models() -> List[str]:
         # Networking errors shouldn't break the caller – return a minimal hard‑coded list.
         logger.warning("Error listing OpenAI models via API (%s). Returning fallback list.", exc)
         return [
-            "gpt-4o-mini",
             "o4-mini",
-            "o3-mini",
             "o3",
-            "text-davinci-003",
         ]

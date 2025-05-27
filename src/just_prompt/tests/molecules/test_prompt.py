@@ -14,7 +14,7 @@ def test_prompt_basic():
     """Test basic prompt functionality with a real API call."""
     # Define a simple test case
     test_prompt = "What is the capital of France?"
-    test_models = ["openai:gpt-4o-mini"]
+    test_models = ["openai:o4-mini"]
 
     # Call the prompt function with a real model
     response = prompt(test_prompt, test_models)
@@ -32,7 +32,7 @@ def test_prompt_multiple_models():
         
     # Define a simple test case
     test_prompt = "What is the capital of France?"
-    test_models = ["openai:gpt-4o-mini", "anthropic:claude-3-5-haiku-20241022"]
+    test_models = ["openai:o4-mini", "anthropic:claude-sonnet-4-20250514"]
 
     # Call the prompt function with multiple models
     response = prompt(test_prompt, test_models)

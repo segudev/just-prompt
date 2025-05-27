@@ -15,7 +15,7 @@ load_dotenv()
 def test_nonexistent_file():
     """Test with non-existent file."""
     with pytest.raises(FileNotFoundError):
-        prompt_from_file("/non/existent/file.txt", ["o:gpt-4o-mini"])
+        prompt_from_file("/non/existent/file.txt", ["o:o4-mini"])
 
 
 def test_file_read():
@@ -27,7 +27,7 @@ def test_file_read():
     
     try:
         # Make real API call
-        response = prompt_from_file(temp_path, ["o:gpt-4o-mini"])
+        response = prompt_from_file(temp_path, ["o:o4-mini"])
         
         # Assertions
         assert isinstance(response, list)

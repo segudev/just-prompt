@@ -25,13 +25,13 @@ def test_list_models():
     assert all(isinstance(model, str) for model in models)
     
     # Check for at least one expected model
-    gpt_models = [model for model in models if "gpt" in model.lower()]
-    assert len(gpt_models) > 0, "No GPT models found"
+    o_models = [model for model in models if model.startswith("o")]
+    assert len(o_models) > 0, "No o-series models found"
 
 
 def test_prompt():
     """Test sending prompt to OpenAI with a regular model."""
-    response = openai.prompt("What is the capital of France?", "gpt-4o-mini")
+    response = openai.prompt("What is the capital of France?", "o4-mini")
 
     # Assertions
     assert isinstance(response, str)
@@ -50,10 +50,10 @@ def test_parse_reasoning_suffix():
     assert openai.parse_reasoning_suffix("o4-mini:low") == ("o4-mini", "low")
     assert openai.parse_reasoning_suffix("o4-mini:medium") == ("o4-mini", "medium")
     assert openai.parse_reasoning_suffix("o4-mini:high") == ("o4-mini", "high")
-    assert openai.parse_reasoning_suffix("o3-mini:LOW") == ("o3-mini", "low")  # case insensitive
+    assert openai.parse_reasoning_suffix("o3:LOW") == ("o3", "low")  # case insensitive
 
     # Unsupported model – suffix ignored
-    assert openai.parse_reasoning_suffix("gpt-4o-mini:low") == ("gpt-4o-mini:low", "")
+    assert openai.parse_reasoning_suffix("gpt-4:low") == ("gpt-4:low", "")
 
 
 @pytest.mark.parametrize("model_suffix", ["o4-mini:low", "o4-mini:medium", "o4-mini:high"])

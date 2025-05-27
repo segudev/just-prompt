@@ -27,7 +27,7 @@ def test_directory_creation_and_file_writing():
         # Make real API call
         file_paths = prompt_from_file_to_file(
             input_path, 
-            ["o:gpt-4o-mini"],
+            ["o:o4-mini"],
             temp_dir
         )
         

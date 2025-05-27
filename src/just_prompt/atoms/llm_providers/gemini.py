@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 # Models that support thinking_budget
-THINKING_ENABLED_MODELS = ["gemini-2.5-flash-preview-04-17"]
+THINKING_ENABLED_MODELS = ["gemini-2.5-pro-preview-04-17", "gemini-2.5-flash-preview-04-17"]
 
 
 def parse_thinking_suffix(model: str) -> Tuple[str, int]:
@@ -183,10 +183,6 @@ def list_models() -> List[str]:
         # Return some known models if API fails
         logger.info("Returning hardcoded list of known Gemini models")
         return [
-            "gemini-1.5-pro",
-            "gemini-1.5-flash",
-            "gemini-1.5-flash-latest",
-            "gemini-1.0-pro",
-            "gemini-2.0-flash",
+            "gemini-2.5-pro-preview-04-17",
             "gemini-2.5-flash-preview-04-17"
         ]

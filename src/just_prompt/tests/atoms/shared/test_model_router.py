@@ -19,13 +19,13 @@ def test_route_prompt(mock_import_module):
     mock_import_module.return_value = mock_module
     
     # Test with full provider name
-    response = ModelRouter.route_prompt("openai:gpt-4o-mini", "What is the capital of France?")
+    response = ModelRouter.route_prompt("openai:o4-mini", "What is the capital of France?")
     assert response == "Paris is the capital of France."
     mock_import_module.assert_called_with("just_prompt.atoms.llm_providers.openai")
-    mock_module.prompt.assert_called_with("What is the capital of France?", "gpt-4o-mini")
+    mock_module.prompt.assert_called_with("What is the capital of France?", "o4-mini")
     
     # Test with short provider name
-    response = ModelRouter.route_prompt("o:gpt-4o-mini", "What is the capital of France?")
+    response = ModelRouter.route_prompt("o:o4-mini", "What is the capital of France?")
     assert response == "Paris is the capital of France."
     
     # Test invalid provider
